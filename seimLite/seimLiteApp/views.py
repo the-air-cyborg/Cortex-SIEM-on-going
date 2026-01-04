@@ -40,3 +40,6 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     return render(request,'seimLiteApp/dashboard.html')
+
+def logs_view(request):
+    return render(request,'seimLiteapp/logs.html')

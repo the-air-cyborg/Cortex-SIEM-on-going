@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Security Logs{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Security Logs</h2>
+
+        <span class="badge bg-secondary">
+            Dummy Data
+        </span>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <label for="" class="form-label">Log Level</label>
+                    <select name="" id="" class="form-select">
+                        <option value="" selected>All</option>
+                        <option value="">Info</option>
+                        <option value="">Warning</option>
+                        <option value="">Critical</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="" class="form-label">Source</label>
+                    <input type="text" class="form-control" placeholder="Firewall, Auth, Server">
+                </div>
+                <div class="col-md-4 flex align-items-end">
+                    <button type="button" class="btn btn-dark w-100">Apply Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sw">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Time</th>
+                        <th>Level</th>
+                        <th>Source</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>2026-01-03 11:30</td>
+                        <td><span class="badge bg-info">INFO</span></td>
+                        <td>Auth</td>
+                        <td>User Admin logged in</td>
+                        <td><span class="badge bg-success">Ok</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
