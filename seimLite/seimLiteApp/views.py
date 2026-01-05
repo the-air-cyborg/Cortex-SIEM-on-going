@@ -43,3 +43,35 @@ def dashboard(request):
 
 def logs_view(request):
     return render(request,'seimLiteapp/logs.html')
+
+@login_required
+def logs_view(request):
+    dummy_logs = [
+        {
+            "time": "2026-01-03 11:30",
+            "level": "INFO",
+            "source": "Auth",
+            "message": "User admin logged in",
+            "status": "OK"
+        },
+        {
+            "time": "2026-01-03 11:28",
+            "level": "WARNING",
+            "source": "Firewall",
+            "message": "Multiple failed login attempts",
+            "status": "Investigate"
+        },
+        {
+            "time": "2026-01-03 11:25",
+            "level": "CRITICAL",
+            "source": "Server",
+            "message": "Unauthorized access detected",
+            "status": "Blocked"
+        }
+    ]
+
+    context = {
+        "logs": dummy_logs
+    }
+
+    return render(request, "seimLiteApp/logs.html", context)

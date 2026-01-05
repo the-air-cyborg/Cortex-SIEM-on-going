@@ -51,14 +51,36 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>2026-01-03 11:30</td>
-                        <td><span class="badge bg-info">INFO</span></td>
-                        <td>Auth</td>
-                        <td>User Admin logged in</td>
-                        <td><span class="badge bg-success">Ok</span></td>
-                    </tr>
-                </tbody>
+  {% for log in logs %}
+  <tr>
+    <td>{{ log.time }}</td>
+
+    <td>
+      {% if log.level == "INFO" %}
+        <span class="badge bg-info">INFO</span>
+      {% elif log.level == "WARNING" %}
+        <span class="badge bg-warning text-dark">WARNING</span>
+      {% elif log.level == "CRITICAL" %}
+        <span class="badge bg-danger">CRITICAL</span>
+      {% endif %}
+    </td>
+
+    <td>{{ log.source }}</td>
+    <td>{{ log.message }}</td>
+
+    <td>
+      {% if log.status == "OK" %}
+        <span class="badge bg-success">OK</span>
+      {% elif log.status == "Investigate" %}
+        <span class="badge bg-warning text-dark">Investigate</span>
+      {% elif log.status == "Blocked" %}
+        <span class="badge bg-danger">Blocked</span>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+
             </table>
         </div>
     </div>
