@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import Log
+from .models import Log,Profile
 
 
 def login_view(request):
@@ -63,4 +63,14 @@ def logs_view(request):
         "logs": logs,
         "selected_level": level,
         "selected_status": status,
+    })
+
+
+@login_required
+@login_required
+def account_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    return render(request, "seimLiteApp/account.html", {
+        "profile": profile
     })

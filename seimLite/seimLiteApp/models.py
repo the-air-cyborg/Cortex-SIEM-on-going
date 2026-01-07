@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Project(models.Model):
@@ -30,4 +31,21 @@ class Log(models.Model):
     
     def __str__(self):
         return f"{self.level} | {self.source}"
+    
+class Profile(models.Model):
+    ROLE_CHOICES=[
+        ("ADMIN","Admin"),
+        ("ANALYST","Security Analyst"),
+        ("VIEWER","Viewer"),
+    ]
+    
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic=models.ImageField(upload_to="profiles/",blank=True,null=True)
+    phone=models.CharField(max_length=15,blank=True)
+    address=models.TextField(blank=True)
+    role=models.CharField(max_length=20,choices=ROLE_CHOICES,default="VIEWER")
+    
+    def __str__(self):
+        return self.user.username
+    
     

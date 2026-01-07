@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+
+    <div class="col-md-4 text-center">
+      <img
+        src="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}/static/img/default-user.png{% endif %}"
+        class="rounded-circle mb-3"
+        width="150"
+        height="150"
+      >
+
+      <h4>{{ request.user.username }}</h4>
+      <span class="badge bg-primary">{{ profile.role }}</span>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <p><strong>Email:</strong> {{ request.user.email }}</p>
+          <p><strong>Phone:</strong> {{ profile.phone|default:"—" }}</p>
+          <p><strong>Address:</strong> {{ profile.address|default:"—" }}</p>
+
+          <a href="#" class="btn btn-outline-primary btn-sm">
+            Edit Profile
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
