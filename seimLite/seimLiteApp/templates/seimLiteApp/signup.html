@@ -10,9 +10,10 @@
       <div class="card-body">
         <h3 class="text-center mb-3">Create Accout</h3>
         <p class="text-center text-muted mb-4">Join SeimLite to continue</p>
-        <form action="" method="POST">
+        <form enctype="multipart/form-data" action="" method="POST">
           {% csrf_token %}
-          {{form|crispy}}
+          {{ user_form|crispy }}
+          {{profile_form | crispy }}
 
           <div class="d-grid mt-3">
             <button type="submit" class="btn btn-success">Sign Up</button>

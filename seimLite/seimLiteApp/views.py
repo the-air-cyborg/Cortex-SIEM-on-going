@@ -3,7 +3,8 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Log,Profile
-
+from .forms import UserRegistrationForm,ProfileRegistrationForm
+from django.db import transaction
 
 def login_view(request):
     if request.method == "POST":
@@ -19,15 +20,30 @@ def login_view(request):
 
 def signup_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        user_form = UserRegistrationForm(request.POST)
+        profile_form = ProfileRegistrationForm(request.POST, request.FILES)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            with transaction.atomic():
+                user = user_form.save()
+
+                # profile already exists because of signal
+                profile = user.profile
+                profile.phone = profile_form.cleaned_data["phone"]
+                profile.profile_pic = profile_form.cleaned_data.get("profile_pic")
+                profile.save()
+
             login(request, user)
             return redirect("dashboard")
     else:
-        form = UserCreationForm()
+        user_form = UserRegistrationForm()
+        profile_form = ProfileRegistrationForm()
 
-    return render(request, "seimLiteApp/signup.html", {"form": form})
+    return render(request, "seimLiteApp/signup.html", {
+        "user_form": user_form,
+        "profile_form": profile_form
+    })
+            
 
 
 def logout_view(request):
@@ -72,5 +88,6 @@ def account_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     return render(request, "seimLiteApp/account.html", {
-        "profile": profile
+        "user":request.user,
+        "profile":profile
     })

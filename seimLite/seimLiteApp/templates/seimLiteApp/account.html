@@ -3,36 +3,32 @@
 
 {% block content %}
 <div class="container mt-4">
-  <div class="row">
+    <h2 class="mb-4">My Account</h2>
 
-    <div class="col-md-4 text-center">
-      <img
-        src="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}/static/img/default-user.png{% endif %}"
-        class="rounded-circle mb-3"
-        width="150"
-        height="150"
-      >
-
-      <h4>{{ request.user.username }}</h4>
-      <span class="badge bg-primary">{{ profile.role }}</span>
-    </div>
-
-    <div class="col-md-8">
-      <div class="card shadow-sm">
+    <div class="card shadow-sm">
         <div class="card-body">
 
-          <p><strong>Email:</strong> {{ request.user.email }}</p>
-          <p><strong>Phone:</strong> {{ profile.phone|default:"—" }}</p>
-          <p><strong>Address:</strong> {{ profile.address|default:"—" }}</p>
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    {% if profile.profile_pic %}
+                        <img src="{{ profile.profile_pic.url }}"
+                             class="img-thumbnail mb-3"
+                             width="180">
+                    {% else %}
+                        <div class="text-muted">No Profile Picture</div>
+                    {% endif %}
+                </div>
 
-          <a href="#" class="btn btn-outline-primary btn-sm">
-            Edit Profile
-          </a>
+                <div class="col-md-8">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email|default:"Not set" }}</p>
+                    <p><strong>Role:</strong> {{ profile.role|default:"User" }}</p>
+                    <p><strong>Phone:</strong> {{ profile.phone|default:"Not provided" }}</p>
+                    <p><strong>Address:</strong> {{ profile.address|default:"Not provided" }}</p>
+                </div>
+            </div>
 
         </div>
-      </div>
     </div>
-
-  </div>
 </div>
 {% endblock %}
