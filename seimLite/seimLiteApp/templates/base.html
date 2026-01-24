@@ -16,53 +16,102 @@
 <body class="bg-light">
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
   <div class="container-fluid">
 
-    <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
-      SEIM Lite
-    </a>
+    <a class="navbar-brand fw-bold" href="/">SeimLite</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
+            data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" id="mainNavbar">
 
-      <!-- LEFT NAV -->
+      {% if user.is_authenticated %}
+
+      <!-- LEFT -->
       <ul class="navbar-nav me-auto">
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logs' %}">Logs</a>
         </li>
+
+        {% if user.profile.is_analyst or user.profile.is_admin %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'investigations' %}">
+            Investigations
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+        </li>
+
+        {% if user.profile.is_admin %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            Admin
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'projects' %}">Projects</a></li>
+            <li><a class="dropdown-item" href="{% url 'users' %}">Users & Roles</a></li>
+            <li><a class="dropdown-item" href="{% url 'settings' %}">System Settings</a></li>
+            <li><a class="dropdown-item" href="{% url 'logs' %}">Audit Logs</a></li>
+          </ul>
+        </li>
+        {% endif %}
       </ul>
 
-      <!-- RIGHT NAV -->
-      {% if request.user.is_authenticated %}
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"
-             href="#"
-             role="button"
-             data-bs-toggle="dropdown">
-            {{ request.user.username }}
-          </a>
+      <!-- RIGHT -->
+      <ul class="navbar-nav ms-auto">
 
-          <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="{% url 'account' %}">Account</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a>
-          </div>
+        {% if user.profile.is_admin or user.profile.is_analyst %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'alerts' %}">
+            Alerts <span class="badge bg-danger">3</span>
+          </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            {{ user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">
+              Logout
+            </a></li>
+          </ul>
+        </li>
+
+      </ul>
+
+      {% else %}
+
+      <!-- GUEST NAVBAR -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'signup' %}">Register</a>
         </li>
       </ul>
+
       {% endif %}
 
     </div>
   </div>
 </nav>
+
 
 <!-- MAIN CONTENT -->
 <div class="container mt-4">

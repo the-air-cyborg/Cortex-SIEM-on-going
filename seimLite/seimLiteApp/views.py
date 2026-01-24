@@ -81,13 +81,36 @@ def logs_view(request):
         "selected_status": status,
     })
 
+@login_required
+def reports(request):
+    return render(request, "seimLiteApp/reports.html")
 
 @login_required
-@login_required
-def account_view(request):
+def profile_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
-    return render(request, "seimLiteApp/account.html", {
+    return render(request, "seimLiteApp/profile.html", {
         "user":request.user,
         "profile":profile
     })
+    
+@login_required
+def investigations_view(request):
+    return render(request,"seimLiteApp/investigations.html")
+
+@login_required
+def projects_view(request):
+    return render(request,"seimLiteApp/projects.html")@login_required
+
+@login_required
+def users_view(request):
+    return render(request,"seimLiteApp/users.html")
+
+@login_required
+def settings_view(request):
+    return render(request,"seimLiteApp/settings.html")
+
+@login_required
+def alerts_view(request):
+    return render(request,"seimLiteApp/alerts.html")
+

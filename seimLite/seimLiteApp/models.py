@@ -45,11 +45,19 @@ class Profile(models.Model):
     address=models.TextField(blank=True)
     role=models.CharField(max_length=20,choices=ROLE_CHOICES,default="VIEWER")
     
+    @property
     def is_admin(self):
         return self.role=="ADMIN"
+    
+    @property
     def is_analyst(self):
         return self.role=="ANALYST"
+    
+    @property
     def is_viewer(self):
         return self.role=="VIEWER"
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.role}"
     
     
